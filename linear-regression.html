@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      PhyCacl | 一元线性回归
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+    <style type="text/css">
+      body { padding-top: 60px; padding-bottom: 40px; }
+      .coordinate input { width:auto; }
+	  .result p{ font-size:1.2em; }
+	  .table-btn-div button { width:6em; }
+    </style>
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+          </a>
+          <a class="brand" href="./">
+            PhyCacl
+          </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li>
+                <a href="./">
+                  首页
+                </a>
+              </li>
+              <li class="active">
+                <a href="linear-regression.html">
+                  一元线性回归
+                </a>
+              </li>
+              <li>
+                <a href="successive-difference.html">
+                  逐差法
+                </a>
+              </li>
+              <li>
+                <a href="about.html">
+                  关于
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <h1>
+        一元线性回归
+      </h1>
+      <div class="row">
+        <div class="span5">
+          <p>
+            <table class="table table-striped coordinate">
+              <thead>
+                <tr>
+                  <th>
+                    #
+                  </th>
+                  <th>
+                    X轴坐标
+                  </th>
+                  <th>
+                    Y轴坐标
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+            <div class="row table-btn-div">
+              <div class="span1">
+                <button class="btn btn-large btn-warning btn-example">
+                  试一试
+                </button>
+              </div>
+              <div class="span4">
+                <div style="float:right">
+                  <button class="btn btn-large btn-add-row">
+                    添加一行
+                  </button>
+                  <button class="btn btn-large btn-empty">
+                    清空
+                  </button>
+                  <button class="btn btn-large btn-del-row" style="display:none">
+                    删除多余行
+                  </button>
+                  <button class="btn btn-large btn-primary btn-cacl">
+                    计算
+                  </button>
+                </div>
+              </div>
+            </div>
+          </p>
+        </div>
+        <div class="span7">
+          <p>
+            <div id="chart_div">
+            </div>
+            <div class="result table table-striped">
+              <div class="row">
+                <div class="span3 offset1">
+                  <p>
+                    <img src="https://chart.googleapis.com/chart?cht=tx&chl=\Large%20\overline{x}="
+                    />
+                    <span id="xAvg">
+                      未知数
+                    </span>
+                  </p>
+                </div>
+                <div class="span3">
+                  <p>
+                    <img src="https://chart.googleapis.com/chart?cht=tx&chl=\Large%20\overline{y}="
+                    />
+                    <span id="yAvg">
+                      未知数
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="span3 offset1">
+                  <p>
+                    <img src="https://chart.googleapis.com/chart?cht=tx&chl=\Large%20\overline{xy}="
+                    />
+                    <span id="xyMulAvg">
+                      未知数
+                    </span>
+                  </p>
+                </div>
+                <div class="span3">
+                  <p>
+                    <img src="https://chart.googleapis.com/chart?cht=tx&chl=\Large%20\bar{x}%20\bar{y}="
+                    />
+                    <span id="xAvgYAvgMul">
+                      未知数
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="span3 offset1">
+                  <p>
+                    <img src="https://chart.googleapis.com/chart?cht=tx&chl=\Large%20\overline{x^2}="
+                    />
+                    <span id="xSquareAvg">
+                      未知数
+                    </span>
+                  </p>
+                </div>
+                <div class="span3">
+                  <p>
+                    <img src="https://chart.googleapis.com/chart?cht=tx&chl=\Large%20\overline{y^2}="
+                    />
+                    <span id="ySquareAvg">
+                      未知数
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="span3 offset1">
+                  <p>
+                    <img src="https://chart.googleapis.com/chart?cht=tx&chl=\Large%20{\overline{x}}^2="
+                    />
+                    <span id="xAvgSquare">
+                      未知数
+                    </span>
+                  </p>
+                </div>
+                <div class="span3">
+                  <p>
+                    <img src="https://chart.googleapis.com/chart?cht=tx&chl=\Large%20{\overline{y}}^2="
+                    />
+                    <span id="yAvgSquare">
+                      未知数
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <p>
+              </p>
+              <div class="row">
+                <div class="span6 offset1 ">
+                  <p>
+                    <img src="https://chart.googleapis.com/chart?cht=tx&chl=\Large%20a=\overline{y}-b\overline{x}="
+                    />
+                    <span id="a">
+                      未知数
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <p>
+              </p>
+              <div class="row">
+                <div class="span6 offset1">
+                  <p>
+                    <img src="https://chart.googleapis.com/chart?cht=tx&chl=\Large%20b=\frac{\bar{x}\bar{y}-\overline{xy}}{{\overline{x}}^2-\overline{x^2}}="
+                    />
+                    <span id="b">
+                      未知数
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <p>
+              </p>
+              <div class="row">
+                <div class="span6 offset1">
+                  <p>
+                    <img src="https://chart.googleapis.com/chart?cht=tx&chl=\Large%20r=\frac{\overline{xy}-\bar{x}\bar{y}}{\sqrt{({\overline{x}}^2-\overline{x^2})({\overline{y}}^2-\overline{y^2})}}="
+                    />
+                    <span id="r">
+                      未知数
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="span6 offset1">
+                  <p>
+                    <img src="https://chart.googleapis.com/chart?cht=tx&chl=\Large%20\mu_a(a)=\sqrt{\overline{x^2}}\cdot\mu_a(b)="
+                    />
+                    <span id="muaA">
+                      未知数
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="span6 offset1">
+                  <p>
+                    <img src="https://chart.googleapis.com/chart?cht=tx&chl=\Large%20\mu_a(b)=b\cdot\sqrt{\frac1{k-2}(\frac1{r^2}-1)}="
+                    />
+                    <span id="muaB">
+                      未知数
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </p>
+        </div>
+      </div>
+      <footer>
+        <div align="center">
+          <p>
+            Powered by
+            <a href="http://malash.me/">
+              Malash
+            </a>
+          </p>
+        </div>
+      </footer>
+    </div>
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/phycacl.js"></script>
+    <script src="js/linear-regression.js"></script>
+	<script id="google-jsapi"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-25658471-1']);
+      _gaq.push(['_setDomainName', 'malash.me']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </body>
+</html>
