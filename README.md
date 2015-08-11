@@ -22,6 +22,6 @@ PhyCacl的图表绘制和公式生成采用了Google Chart的公开API。
 
 ### 作者
 
-> [Malash](http://malash.me/ "Malash") &lt;<malash@malash.me>&gt;
+> [Malash](https://malash.me/ "Malash") &lt;<i@malash.me>&gt;
 > 
 > [Karezi](http://karezi.info/ "Karezi") &lt;<karezi1992@gmail.com>&gt;
